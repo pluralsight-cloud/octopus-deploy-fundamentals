@@ -1,0 +1,83 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<section class="hero">
+    <div class="container">
+        <p class="eyebrow">Web consulting</p>
+        <h1>Build software that earns its keep.</h1>
+        <p class="lede">
+            Globomantics helps cutting-edge product teams design, ship, and operate modern web platforms
+            on Azure — without the ceremony that slows delivery.
+        </p>
+    </div>
+</section>
+
+<section class="env-panel">
+    <div class="container">
+        <article class="card">
+            <h2>Deployment environment</h2>
+            <p class="hint">
+                This value is read from the configuration key
+                <code>@DeploymentOptions.ConfigurationKey</code>.
+                On Azure App Service, set it as an Application Setting so each slot
+                (dev, staging, production) can advertise itself.
+            </p>
+            <p class="env-value" aria-live="polite">@Model.DeploymentEnvironment</p>
+            <dl class="meta">
+                <div>
+                    <dt>Hosting environment</dt>
+                    <dd>@Model.HostingEnvironmentName</dd>
+                </div>
+                <div>
+                    <dt>Configuration key</dt>
+                    <dd><code>DeploymentEnvironment</code></dd>
+                </div>
+                <div>
+                    <dt>Resolution</dt>
+                    <dd>@Model.ConfigurationSourceHint</dd>
+                </div>
+            </dl>
+        </article>
+    </div>
+</section>
+
+<section id="services" class="band">
+    <div class="container">
+        <h2>What we do</h2>
+        <div class="grid">
+            <article>
+                <h3>Platform engineering</h3>
+                <p>Azure App Service, Container Apps, and CI/CD that a small team can actually own.</p>
+            </article>
+            <article>
+                <h3>Product web apps</h3>
+                <p>ASP.NET Core, APIs, and front ends built for the next three years — not the last three.</p>
+            </article>
+            <article>
+                <h3>Delivery coaching</h3>
+                <p>Reviews, pairing, and operating models so the work keeps moving after we leave.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section id="approach" class="band muted-band">
+    <div class="container">
+        <h2>How we work</h2>
+        <p>
+            Short engagements. Visible progress every week. Configuration and environment
+            promoted as first-class concerns — which is why this sample surfaces
+            <code>DeploymentEnvironment</code> instead of hard-coding a label.
+        </p>
+    </div>
+</section>
+
+<section id="contact" class="band">
+    <div class="container">
+        <h2>Start a conversation</h2>
+        <p>hello@globomantics.example · Kennedale and remote</p>
+    </div>
+</section>
