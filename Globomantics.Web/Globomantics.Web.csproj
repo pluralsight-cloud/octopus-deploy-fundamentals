@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -8,7 +7,6 @@
     <AssemblyName>Globomantics.Web</AssemblyName>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	<IsPackable>true</IsPackable>
-	<Version />
+	<Version>0.0.8</Version>
   </PropertyGroup>
-
 </Project>
