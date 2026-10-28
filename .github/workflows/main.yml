@@ -68,10 +68,10 @@ jobs:
           ZIP_NAME="Globomantics.Web.${VERSION}.zip"
           (cd publish && zip -r "../${ZIP_NAME}" .)
           ls -la "${ZIP_NAME}"
-
+          
       - name: Upload zip artifact
         uses: actions/upload-artifact@v4
         with:
           name: Globomantics.Web.${{ steps.get_version.outputs.version }}
-          path: Globomantics.Web.*.zip
+          path: Globomantics.Web/Globomantics.Web.*.zip
           if-no-files-found: error
