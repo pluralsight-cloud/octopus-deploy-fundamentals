@@ -64,20 +64,20 @@ jobs:
             --output ./publish
 
       - name: Zip published output
-        working-directory: .          # override so we start from repo root
+        working-directory: Globomantics.Web
         run: |
           VERSION="${{ steps.get_version.outputs.version }}"
           ZIP_NAME="Globomantics.Web.${VERSION}.zip"
-          cd Globomantics.Web/publish
-          zip -r "../../${ZIP_NAME}" ./*
-          cd ../..
+          # Zip the *contents* of the publish folder, writing the zip one level up
+          (cd publish && zip -r "../${ZIP_NAME}" .)
+          echo "=== Zip created ==="
           ls -la "${ZIP_NAME}"
-          echo "=== Zip contents ==="
-          unzip -l "${ZIP_NAME}" | head -20
+          echo "=== Zip contents (should be flat) ==="
+          unzip -l "${ZIP_NAME}" | head -25
 
       - name: Upload zip artifact
         uses: actions/upload-artifact@v4
         with:
-          name: publish-output-${{ steps.get_version.outputs.version }}
-          path: Globomantics.Web.*.zip
+          name: Globomantics-Web-${{ steps.get_version.outputs.version }}
+          path: Globomantics.Web/Globomantics.Web.*.zip
           if-no-files-found: error
