@@ -10,10 +10,12 @@ jobs:
     permissions:
       contents: read
       actions: read
-      security-events: write   # required for CodeQL
+      security-events: write
+
     defaults:
       run:
-         working-directory: Globomantics.Web   # applies to all run: step
+        working-directory: Globomantics.Web
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -50,7 +52,6 @@ jobs:
         id: get_version
         shell: bash
         run: |
-          # Adjust path to your actual project file
           VERSION=$(grep -oP '(?<=<Version>).*?(?=</Version>)' Globomantics.Web.csproj || echo "0.0.0")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Version found: $VERSION"
@@ -63,19 +64,20 @@ jobs:
             --output ./publish
 
       - name: Zip published output
+        working-directory: .          # override so we start from repo root
         run: |
           VERSION="${{ steps.get_version.outputs.version }}"
           ZIP_NAME="Globomantics.Web.${VERSION}.zip"
-          cd publish
-          zip -r "../${ZIP_NAME}" ./*
-          cd ..
+          cd Globomantics.Web/publish
+          zip -r "../../${ZIP_NAME}" ./*
+          cd ../..
           ls -la "${ZIP_NAME}"
-          # Optional: verify the zip contents have no extra top-level folder
+          echo "=== Zip contents ==="
           unzip -l "${ZIP_NAME}" | head -20
-          
+
       - name: Upload zip artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Globomantics.Web.${{ steps.get_version.outputs.version }}
-          path: Globomantics.Web/Globomantics.Web.*.zip
+          name: publish-output-${{ steps.get_version.outputs.version }}
+          path: Globomantics.Web.*.zip
           if-no-files-found: error
