@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-test-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      security-events: write   # required for CodeQL
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Test
+        run: dotnet test --no-build --configuration Release --verbosity normal
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: csharp
+          queries: security-and-quality
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:csharp"
+
+      - name: Get version from csproj
+        id: get_version
+        shell: bash
+        run: |
+          # Adjust path to your actual project file
+          VERSION=$(grep -oP '(?<=<Version>).*?(?=</Version>)' Globomantics.Web/Globomantics.Web.csproj || echo "0.0.0")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version found: $VERSION"
+
+      - name: Publish
+        run: |
+          dotnet publish Globomantics.Web/Globomantics.Web.csproj \
+            --configuration Release \
+            --no-build \
+            --output ./publish
+
+      - name: Zip published output
+        run: |
+          VERSION="${{ steps.get_version.outputs.version }}"
+          ZIP_NAME="Globomantics.Web.${VERSION}.zip"
+          cd publish
+          zip -r "../${ZIP_NAME}" .
+          cd ..
+          ls -la "${ZIP_NAME}"
+
+      - name: Upload zip artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Globomantics.Web.${{ steps.get_version.outputs.version }}
+          path: Globomantics.Web.*.zip
+          if-no-files-found: error
