@@ -66,8 +66,12 @@ jobs:
         run: |
           VERSION="${{ steps.get_version.outputs.version }}"
           ZIP_NAME="Globomantics.Web.${VERSION}.zip"
-          (cd publish && zip -r "../${ZIP_NAME}" .)
+          cd publish
+          zip -r "../${ZIP_NAME}" ./*
+          cd ..
           ls -la "${ZIP_NAME}"
+          # Optional: verify the zip contents have no extra top-level folder
+          unzip -l "${ZIP_NAME}" | head -20
           
       - name: Upload zip artifact
         uses: actions/upload-artifact@v4
