@@ -33,7 +33,7 @@ jobs:
         run: dotnet test --no-build --configuration Release --verbosity normal
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: csharp
           queries: security-and-quality
@@ -62,14 +62,12 @@ jobs:
             --no-build \
             --output ./publish
 
-      - name: Zip published output (to root)
+      - name: Zip published output
         run: |
           VERSION="${{ steps.get_version.outputs.version }}"
           ZIP_NAME="Globomantics.Web.${VERSION}.zip"
-          cd publish
-          zip -r "../../${ZIP_NAME}" .
-          cd ..
-          ls -la "../${ZIP_NAME}"
+          (cd publish && zip -r "../${ZIP_NAME}" .)
+          ls -la "${ZIP_NAME}"
 
       - name: Upload zip artifact
         uses: actions/upload-artifact@v4
