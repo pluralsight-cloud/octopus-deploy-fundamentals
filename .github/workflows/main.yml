@@ -68,16 +68,15 @@ jobs:
         run: |
           VERSION="${{ steps.get_version.outputs.version }}"
           ZIP_NAME="Globomantics.Web.${VERSION}.zip"
-          # Zip the *contents* of the publish folder, writing the zip one level up
-          (cd publish && zip -r "../${ZIP_NAME}" .)
-          echo "=== Zip created ==="
-          ls -la "${ZIP_NAME}"
-          echo "=== Zip contents (should be flat) ==="
-          unzip -l "${ZIP_NAME}" | head -25
+          # Remove any previous zip, then zip only the contents of publish/
+          rm -f "${ZIP_NAME}"
+          (cd publish && zip -r "../${ZIP_NAME}" . -x "*.zip")
+          echo "=== Zip contents ==="
+          unzip -l "${ZIP_NAME}" | head -30
 
       - name: Upload zip artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Globomantics-Web-${{ steps.get_version.outputs.version }}
+          name: Globomantics.Web.${{ steps.get_version.outputs.version }}
           path: Globomantics.Web/Globomantics.Web.*.zip
           if-no-files-found: error
