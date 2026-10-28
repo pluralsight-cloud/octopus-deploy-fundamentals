@@ -70,7 +70,7 @@ jobs:
           ZIP_NAME="Globomantics.Web.${VERSION}.zip"
           # Remove any previous zip, then zip only the contents of publish/
           rm -f "${ZIP_NAME}"
-          (cd publish && zip -r "../Globomantics.Web/${ZIP_NAME}" . -x "*.zip")
+          (cd publish && zip -r "../${ZIP_NAME}" . -x "*.zip")
           echo "=== Zip contents ==="
           unzip -l "${ZIP_NAME}" | head -30
 
