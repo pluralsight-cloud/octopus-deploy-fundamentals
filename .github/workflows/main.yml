@@ -62,14 +62,14 @@ jobs:
             --no-build \
             --output ./publish
 
-      - name: Zip published output
+      - name: Zip published output (to root)
         run: |
           VERSION="${{ steps.get_version.outputs.version }}"
           ZIP_NAME="Globomantics.Web.${VERSION}.zip"
           cd publish
-          zip -r "../${ZIP_NAME}" .
+          zip -r "../../${ZIP_NAME}" .
           cd ..
-          ls -la "${ZIP_NAME}"
+          ls -la "../${ZIP_NAME}"
 
       - name: Upload zip artifact
         uses: actions/upload-artifact@v4
