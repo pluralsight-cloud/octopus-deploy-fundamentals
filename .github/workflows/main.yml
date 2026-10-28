@@ -51,13 +51,13 @@ jobs:
         shell: bash
         run: |
           # Adjust path to your actual project file
-          VERSION=$(grep -oP '(?<=<Version>).*?(?=</Version>)' Globomantics.Web/Globomantics.Web.csproj || echo "0.0.0")
+          VERSION=$(grep -oP '(?<=<Version>).*?(?=</Version>)' Globomantics.Web.csproj || echo "0.0.0")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Version found: $VERSION"
 
       - name: Publish
         run: |
-          dotnet publish Globomantics.Web/Globomantics.Web.csproj \
+          dotnet publish Globomantics.Web.csproj \
             --configuration Release \
             --no-build \
             --output ./publish
