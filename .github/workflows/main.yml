@@ -11,7 +11,9 @@ jobs:
       contents: read
       actions: read
       security-events: write   # required for CodeQL
-
+    defaults:
+      run:
+         working-directory: Globomantics.Web   # applies to all run: step
     steps:
       - name: Checkout
         uses: actions/checkout@v4
