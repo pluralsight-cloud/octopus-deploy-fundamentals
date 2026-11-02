@@ -80,3 +80,13 @@ jobs:
         with: 
           server: https://globomantics.octopus.app
           service_account_id: 0b1da289-e6c4-43ae-939f-92c515d5e631
+
+      - name: Push Package to Octopus Deploy
+        # You may pin to the exact commit or the version.
+        # uses: OctopusDeploy/push-package-action@035fb4fdbe77401574ec62275f9a531c570bd420
+          uses: OctopusDeploy/push-package-action@v3.0.4
+        with:
+          # A multi-line list of packages to push to Octopus Deploy.
+          packages: |
+            Globomantics.Web/Globomantics.Web.${{ steps.get_version.outputs.version }}.zip
+
