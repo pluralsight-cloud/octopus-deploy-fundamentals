@@ -73,10 +73,9 @@ jobs:
           (cd publish && zip -r "../${ZIP_NAME}" . -x "*.zip")
           echo "=== Zip contents ==="
           unzip -l "${ZIP_NAME}" | head -30
-
-      - name: Upload zip artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Globomantics.Web.${{ steps.get_version.outputs.version }}
-          path: Globomantics.Web/Globomantics.Web.*.zip
-          if-no-files-found: error
+          
+      - name: Login to Octopus Deploy 
+        uses: OctopusDeploy/login@v1
+        with: 
+          server: https://globomantics.octopus.app
+          service_account_id: 0b1da289-e6c4-43ae-939f-92c515d5e631
