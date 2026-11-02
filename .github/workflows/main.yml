@@ -7,8 +7,6 @@ on:
 jobs:
   build-test-publish:
     runs-on: ubuntu-latest
-    env:
-      OCTOPUS_SPACE: Default
     permissions:
       id-token: write
       contents: read
@@ -84,9 +82,8 @@ jobs:
           service_account_id: 0b1da289-e6c4-43ae-939f-92c515d5e631
 
       - name: Push Package to Octopus Deploy
-        uses: OctopusDeploy/push-package-action@v3.0.4
+        uses: OctopusDeploy/push-package-action@v4
         with:
-          # A multi-line list of packages to push to Octopus Deploy.
+          space: Default
           packages: |
             Globomantics.Web/Globomantics.Web.${{ steps.get_version.outputs.version }}.zip
-
