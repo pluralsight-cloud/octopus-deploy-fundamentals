@@ -34,8 +34,6 @@ public class IndexModel : PageModel
 
     public void OnGet()
     {
-        throw new InvalidOperationException("An obvious problem that should have been caught our processes");
-
         var raw = _configuration[DeploymentOptions.ConfigurationKey];
         ConfigurationSourceHint = raw is null
             ? "Not set in configuration; fell back to ASPNETCORE_ENVIRONMENT or Unknown."
