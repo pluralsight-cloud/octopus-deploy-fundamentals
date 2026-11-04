@@ -7,6 +7,6 @@
     <AssemblyName>Globomantics.Web</AssemblyName>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	<IsPackable>true</IsPackable>
-	<Version>0.0.11</Version>
+	<Version>0.0.12</Version>
   </PropertyGroup>
 </Project>
